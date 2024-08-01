@@ -66,17 +66,18 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
 
 def main():
     """Reads data from DB filters it"""
+    logger = get_logger()
     db = get_db()
 
-    cursor = db.cursor()
+    cursor = db.cursor(dictionary=True)
     cursor.execute("SELECT * FROM users;")
 
     for row in cursor:
         message = "; ".join(f"{key}={value}" for key, value in row.items())
         logger.info(message)
 
-        cursor.close()
-        db.close
+    cursor.close()
+    db.close
 
 
 if __name__ == "__main__":
