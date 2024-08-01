@@ -62,3 +62,22 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         password=os.getenv('PERSONAL_DATA_DB_PASSWORD', ''),
         database=os.getenv('PERSONAL_DATA_DB_NAME')
     )
+
+
+def main():
+    """Reads data from DB filters it"""
+    db = get_db()
+
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+
+    for row in cursor:
+        message = "; ".join(f"{key}={value}" for key, value in row.items())
+        logger.info(message)
+
+        cursor.close()
+        db.close
+
+
+if __name__ == "__main__":
+    main()
