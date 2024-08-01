@@ -33,11 +33,11 @@ def filter_datum(fields: List[str], redaction: str,
     return message
 
 
-PII_FIELDS = ('email', 'phone', 'ssn', 'password', 'ip')
+PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
 
 def get_logger() -> logging.Logger:
-    """Creates and configures a logger, then returns it"""
+    """Creates and sets up a logger and returns it"""
     logger = logging.getLogger('user_data')
     logger.setLevel(logging.INFO)
     logger.propagate = False
