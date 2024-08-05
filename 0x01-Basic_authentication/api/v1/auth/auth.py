@@ -8,13 +8,13 @@ class Auth:
     """Manages API Authentication"""
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """"""
+        """Checks if authentication is required for a given path."""
         return False
 
     def authorization_header(self, request=None) -> str:
-        """"""
-        return None
+        """Retrieves the authorization header from the request."""
+        return request
 
     def current_user(self, request=None) -> TypeVar('User'):
-        """"""
-        return None
+        """Retrieves the current user based on the request."""
+        return request
