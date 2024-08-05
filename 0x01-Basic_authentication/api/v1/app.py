@@ -12,9 +12,9 @@ app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 auth = None
-auth_type = getenv('AUTH_TYPE')
+AUTH_TYPE = getenv('AUTH_TYPE')
 
-if auth_type == 'auth':
+if AUTH_TYPE == 'auth':
     from api.v1.auth.auth import Auth
     auth = Auth()
 
@@ -24,7 +24,6 @@ def before_request():
     """Handler for filtering requests before they reach the view functions."""
     excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/',
                       '/api/v1/forbidden/']
-
     if auth is None:
         return
 
