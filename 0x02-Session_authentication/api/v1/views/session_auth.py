@@ -2,7 +2,7 @@
 """Module of Session_auth views"""
 
 from api.v1.views import app_views
-from flask import jsonify, request, make_response
+from flask import jsonify, request, make_response, abort
 from models.user import User
 from api.v1.auth.session_auth import SessionAuth
 import os
@@ -39,3 +39,14 @@ def login():
     response.set_cookie(SESSION_NAME, session_id)
 
     return response
+
+
+@app_views.route('/auth_session/logout', methods=['DELETE'],
+                 strict_slashes=False)
+def logout():
+    """Dletes user session/logout"""
+    from api.v1.app import auth
+
+    if not auth.destroy_session(request):
+        abort(404)
+    return jsonify({}), 200
