@@ -2,7 +2,7 @@
 """Module for the SessionDBAuth class"""
 from api.v1.auth.session_exp_auth import SessionExpAuth
 from models.user_session import UserSession
-from models.base import Base
+from datetime import datetime, timedelta
 
 
 class SessionDBAuth(SessionExpAuth):
@@ -32,6 +32,12 @@ class SessionDBAuth(SessionExpAuth):
         user_session = UserSession.search({"session_id": session_id})
         if user_session is None:
             return None
+        if self.session_duration <= 0:
+            return user_session[0].user_id
+        created_at = user_session[0].created_at
+        if (created_at +
+                timedelta(seconds=self.session_duration)) < datetime.utcnow():
+            return None
 
         return user_session[0].user_id
 
@@ -50,9 +56,6 @@ class SessionDBAuth(SessionExpAuth):
         user_session = UserSession.search({"session_id": session_id})
         if user_session is None:
             return False
-        current = UserSession().search(
-            {'session_id': session_id})
-        if not current or current == []:
-            return False
-        current[0].remove()
+        user_session.delete()
+
         return True
