@@ -8,7 +8,7 @@ AUTH = Auth()
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/', methods=["GET"])
 def main():
     """Basic route"""
     return jsonify({"message": "Bienvenue"})
@@ -21,7 +21,7 @@ def users():
     password = request.form.get("password")
     try:
         new_user = AUTH.register_user(email, password)
-        return jsonify({"email": new_user.email, "message": "user created"}), 200
+        return jsonify({"email": new_user.email, "message": "user created"})
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
 
