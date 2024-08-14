@@ -90,7 +90,7 @@ class Auth:
             raise ValueError
         try:
             user = self._db.find_user_by(email=email)
-            reset_token = uuid4()
+            reset_token = str(uuid4())
             self._db.update_user(user, reset_token=reset_token)
             return reset_token
         except NoResultFound:
